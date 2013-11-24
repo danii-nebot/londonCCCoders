@@ -33,28 +33,31 @@ if (Meteor.isServer) {
       var response = HTTP.get(profileAPIurl)
 
       var responseData = response.data.results[0];
-      // pluck answer to tech skills question
-      var techQuestion = _.find(responseData.answers, function(obj) {
-        return obj.question.indexOf("techy" !== -1);
+
+      var techQuestion = null;
+      var ccQuestion = null;
+      // pluck answers to both questions in profile
+      _.each(responseData.answers, function(obj) {
+        if(obj.question.indexOf("techy") !== -1) {
+          techQuestion = obj;
+        } else if(obj.question.indexOf("climate") !== -1) {
+          ccQuestion = obj;
+        }
       });
-      // could be null if not answered
-      var actualAnswer = (techQuestion ? techQuestion.answer : '');
 
       // create JSON object
       var jsonObj = {
         name : responseData.name,
         bio : responseData.bio,
-        answer: actualAnswer
+        techAnswer: (techQuestion ? techQuestion.answer : ''),
+        ccAnswer: (ccQuestion ? ccQuestion.answer : ''),
       };
 
       // push to result array
       resultArray.push(jsonObj);
-
-      // if finished, return data
-      if(resultArray.length === numMembers) {
-        return { results: resultArray};
-      }
     }
+
+    return { results: resultArray};
 
   });
 
