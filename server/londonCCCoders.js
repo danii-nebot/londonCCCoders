@@ -3,7 +3,7 @@ if (Meteor.isServer) {
 
   // add restful API method
   // to be invoked from Google Docs :)
-  RESTstop.add('get_user_list', function() {
+  RESTstop.add('get_members_list', function() {
     var membersAPIurl =
       'http://api.meetup.com/2/members' +
       '?order=name' +
