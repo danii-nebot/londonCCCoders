@@ -19,10 +19,14 @@ if (Meteor.isServer) {
       var membersData = getMembersF();
       wait(membersData);
 
+      if(membersData.error) {
+        response.end(JSON.stringify(membersData.error))
+        fut.return();
+      }
+
       var resultsArray = [];
       // TODO: get this working!
-      // for now in order to avoid getting throttled again
-      var numMembers = 2; // membersData.value.length;
+      var numMembers = membersData.value.length;
       for (var ii = 0; ii < numMembers; ++ii) {
         var member = membersData.value[ii];
         resultsArray.push(getMemberProfileF(member.id));
@@ -31,7 +35,6 @@ if (Meteor.isServer) {
 
       response.end(JSON.stringify({results: resultsArray}));
       fut.return();
-
     }).run();
 
     fut.wait();
