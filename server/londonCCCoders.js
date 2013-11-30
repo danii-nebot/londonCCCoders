@@ -25,11 +25,10 @@ if (Meteor.isServer) {
       }
 
       var resultsArray = [];
-      // TODO: get this working!
       var numMembers = membersData.value.length;
-      for (var ii = 0; ii < numMembers; ++ii) {
+      for (var ii = 0; ii < numMembers; ii++) {
         var member = membersData.value[ii];
-        resultsArray.push(getMemberProfileF(member.id));
+        resultsArray.push(getMemberProfileF(member.id, ii));
       }
       wait(resultsArray);
 
@@ -56,7 +55,7 @@ if (Meteor.isServer) {
       });
   }
 
-  function getMemberProfile(id, callback) {
+  function getMemberProfile(id, delay, callback) {
     // set timeout to avoid getting throttled by meetup API
     Meteor.setTimeout(function() {
       var profileAPIurl =
@@ -92,7 +91,7 @@ if (Meteor.isServer) {
           // return data
           callback(err, jsonObj);
         });
-      }, 100);
+      }, 500*delay);
   }
 
 }
