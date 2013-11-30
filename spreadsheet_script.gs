@@ -69,7 +69,7 @@ function setRowsData_(sheet, objects, optFirstDataRowIndex) {
         values.push('');
       }
       else {
-        values.push(objects[i][header]);
+        values.push(objects[i].value[header]);
       }
     }
     data.push(values);
