@@ -25,9 +25,6 @@ function refreshData() {
     functionName : "readRows"
   }];
 
-  var contents = sheet.getRange(4,1,sheet.getLastRow(), sheet.getLastColumn());
-  contents.clear();
-
   var APIurl = 'http://londonccc.meteor.com/api/get_members_list'
   var response = UrlFetchApp.fetch(APIurl);
   var jsonData = Utilities.jsonParse(response.getContentText());
@@ -35,7 +32,10 @@ function refreshData() {
   // debug
   // Logger.log(response);
 
-  setRowsData_(sheet, jsonData.results, 4);
+  // make sure we have results
+  if(jsonData.results.length > 1) {
+    setRowsData_(sheet, jsonData.results, 4);
+  }
 
   // debug
   // readRows_();
@@ -53,6 +53,10 @@ function refreshData() {
 function setRowsData_(sheet, objects, optFirstDataRowIndex) {
   var firstDataRowIndex = optFirstDataRowIndex || 1;
   var headers = ["name","bio", "techAnswer", "ccAnswer"];
+
+  // clear sheet
+  var contents = sheet.getRange(4,1,sheet.getLastRow(), sheet.getLastColumn());
+  contents.clear();
 
   var data = [];
   for (var i = 0; i < objects.length; ++i) {
