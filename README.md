@@ -1,5 +1,9 @@
+
 CCCoders Members Spreadsheet Updater
 ==============
+
+Plase note that this repository won't be maintained. You can find the latest version of this project at:
+https://bitbucket.org/cccoders/cccoders-members-spreadsheet-repository
 
 Made for [London Climate Change Coders](http://www.meetup.com/London-Climate-Change-Coders/)
 
